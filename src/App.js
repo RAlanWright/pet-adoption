@@ -11,7 +11,7 @@ const App = () => {
     "div", // What kind of element?
     { id: "Example attribute" }, // Empty object; The attributes of the component
     [
-      React.createElement("h1", {}, "Adopt Me!"),
+      React.createElement("h1", { id: "something-important" }, "Adopt Me!"),
       React.createElement(Pet, {
         name: "Conan",
         animal: "Cat",
