@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
+import useBreedList from './useBreedList';
 import Pet from './Pet';
 
 const ANIMALS = ['bird', 'cat', 'dog', 'rabbit', 'reptile'];
 
 const SearchParams = () => {
-	const [animal, updateAnimal] = useState('');
-	const [location, updateLocation] = useState('');
-	const [breed, updateBreed] = useState('');
+	const [animal, setAnimal] = useState('');
+	const [location, setLocation] = useState('');
+	const [breed, setBreed] = useState('');
 	const [pets, setPets] = useState([]);
-	const breeds = [];
+	const [breeds] = useBreedList(animal);
 
 	useEffect(() => {
 		requestPets();
@@ -32,7 +33,7 @@ const SearchParams = () => {
 						id='location'
 						value={location}
 						placeholder='Location'
-						onChange={(e) => updateLocation(e.target.value)}
+						onChange={(e) => setLocation(e.target.value)}
 					/>
 				</label>
 				<label htmlFor='animal'>
@@ -40,8 +41,8 @@ const SearchParams = () => {
 					<select
 						id='animal'
 						value={animal}
-						onChange={(e) => updateAnimal(e.target.value)}
-						onBlur={(e) => updateAnimal(e.target.value)}
+						onChange={(e) => setAnimal(e.target.value)}
+						onBlur={(e) => setAnimal(e.target.value)}
 					>
 						<option />
 						{ANIMALS.map((animal) => (
@@ -57,8 +58,8 @@ const SearchParams = () => {
 						disabled={!breeds.length}
 						id='breed'
 						value={breed}
-						onChange={(e) => updateBreed(e.target.value)}
-						onBlur={(e) => updateBreed(e.target.value)}
+						onChange={(e) => setBreed(e.target.value)}
+						onBlur={(e) => setBreed(e.target.value)}
 					>
 						<option />
 						{breeds.map((breed) => (
