@@ -1,63 +1,85 @@
-import React, { useState, useEffect } from "react";
-import pet, { ANIMALS } from "@frontendmasters/pet";
-import Results from "./Results";
-import useDropdown from "./useDropdown";
+import { useState, useEffect } from 'react';
+import Pet from './Pet';
+
+const ANIMALS = ['bird', 'cat', 'dog', 'rabbit', 'reptile'];
 
 const SearchParams = () => {
-  const [location, setLocation] = useState("Seattle, WA");
-  const [breeds, setBreeds] = useState([]);
-  const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
-  const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
-  const [pets, setPets] = useState([]);
+	const [animal, updateAnimal] = useState('');
+	const [location, updateLocation] = useState('');
+	const [breed, updateBreed] = useState('');
+	const [pets, setPets] = useState([]);
+	const breeds = [];
 
-  async function requestPets() {
-    const { animals } = await pet.animals({
-      location,
-      breed,
-      type: animal
-    });
+	useEffect(() => {
+		requestPets();
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    setPets(animals || []);
-  }
+	async function requestPets() {
+		const res = await fetch(
+			`http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
+		);
+		const json = await res.json();
 
-  // useEffect(() => {
-  //   pet.breeds("dog").then(console.log, console.error);
-  // });
+		setPets(json.pets);
+	}
 
-  useEffect(() => {
-    setBreeds([]);
-    setBreed("");
-
-    pet.breeds(animal).then(({ breeds: apiBreeds }) => {
-      const breedStrings = apiBreeds.map(({ name }) => name);
-      setBreeds(breedStrings);
-    }, console.error);
-  }, [animal, setBreed, setBreeds]);
-
-  return (
-    <div className="search-params">
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          requestPets();
-        }}
-      >
-        <label htmlFor="location">
-          Location
-          <input
-            id="location"
-            value={location}
-            placeholder="Location"
-            onChange={e => setLocation(e.target.value)}
-          />
-        </label>
-        <AnimalDropdown />
-        <BreedDropdown />
-        <button>Submit</button>
-      </form>
-      <Results pets={pets} />
-    </div>
-  );
+	return (
+		<div className='search-params'>
+			<form>
+				<label htmlFor='location'>
+					Location
+					<input
+						id='location'
+						value={location}
+						placeholder='Location'
+						onChange={(e) => updateLocation(e.target.value)}
+					/>
+				</label>
+				<label htmlFor='animal'>
+					Animal
+					<select
+						id='animal'
+						value={animal}
+						onChange={(e) => updateAnimal(e.target.value)}
+						onBlur={(e) => updateAnimal(e.target.value)}
+					>
+						<option />
+						{ANIMALS.map((animal) => (
+							<option key={animal} value={animal}>
+								{animal}
+							</option>
+						))}
+					</select>
+				</label>
+				<label htmlFor='breed'>
+					Breed
+					<select
+						disabled={!breeds.length}
+						id='breed'
+						value={breed}
+						onChange={(e) => updateBreed(e.target.value)}
+						onBlur={(e) => updateBreed(e.target.value)}
+					>
+						<option />
+						{breeds.map((breed) => (
+							<option key={breed} value={breed}>
+								{breed}
+							</option>
+						))}
+					</select>
+				</label>
+				<button>Submit</button>
+			</form>
+			{pets.map((pet) => (
+				<Pet
+					name={pet.name}
+					animal={pet.animal}
+					breed={pet.breed}
+					key={pet.id}
+				/>
+			))}
+		</div>
+	);
 };
 
 export default SearchParams;
