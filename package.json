@@ -2,7 +2,7 @@
 	"name": "adopt-me",
 	"version": "1.0.0",
 	"description": "This is a simple React project that builds a basic pet adoption website.",
-	"main": "index.js",
+	"main": "src/index.html",
 	"scripts": {
 		"format": "prettier --write \"src/**/*.{js,jsx}\"",
 		"lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
