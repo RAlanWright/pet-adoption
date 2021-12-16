@@ -2,7 +2,7 @@
 	"name": "adopt-me",
 	"version": "1.0.0",
 	"description": "This is a simple React project that builds a basic pet adoption website.",
-	"main": "src/index.html",
+	"main": "src/App.js",
 	"scripts": {
 		"format": "prettier --write \"src/**/*.{js,jsx}\"",
 		"lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
@@ -13,7 +13,7 @@
 		"url": "git+https://github.com/RAlanWright/pet-adoption.git"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "Alan Wright",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/RAlanWright/pet-adoption/issues"
@@ -21,9 +21,9 @@
 	"homepage": "https://github.com/RAlanWright/pet-adoption#readme",
 	"devDependencies": {
 		"@babel/core": "7.12.16",
-		"@babel/eslint-parser": "^7.13.4",
-		"@babel/plugin-proposal-class-properties": "^7.13.0",
-		"@babel/preset-env": "^7.13.5",
+		"@babel/eslint-parser": "7.13.4",
+		"@babel/plugin-proposal-class-properties": "7.13.0",
+		"@babel/preset-env": "7.13.5",
 		"@babel/preset-react": "7.12.13",
 		"eslint": "7.18.0",
 		"eslint-config-prettier": "8.1.0",
@@ -37,7 +37,7 @@
 	"dependencies": {
 		"react": "17.0.1",
 		"react-dom": "17.0.1",
-		"react-router-dom": "^5.2.0"
+		"react-router-dom": "5.2.0"
 	},
 	"browserslist": [
 		"last 2 Chrome versions"
