@@ -7,7 +7,6 @@ class ErrorBoundary extends Component {
 		return { hasError: true, redirect: false };
 	}
 	componentDidCatch(error, info) {
-		// Log to error monitoring
 		console.error('ErrorBoundary caught an error', error, info);
 	}
 	componentDidUpdate() {
@@ -22,8 +21,9 @@ class ErrorBoundary extends Component {
 		} else if (this.state.hasError) {
 			return (
 				<h2>
-					This listing has an error. <Link to='/'>Click here</Link> to
-					go back to the homepage or wait five seconds.
+					There was an error with this listing.{' '}
+					<Link to='/'>Click here</Link> to back to the home page or
+					wait five seconds.
 				</h2>
 			);
 		}

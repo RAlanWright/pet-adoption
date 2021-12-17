@@ -1,3 +1,4 @@
+// eslint-disable
 import { Component } from 'react';
 
 class Carousel extends Component {
@@ -20,19 +21,30 @@ class Carousel extends Component {
 		const { images } = this.props;
 
 		return (
-			<div className='carousel'>
-				<img src={images[active]} alt='animal' />
-				<div className='carousel-smaller'>
+			<div className='grid grid-rows-2'>
+				<div className='place-self-center'>
+					<img
+						className='p-2 m-2 w-1/2 rounded-lg'
+						src={images[active]}
+						alt='animal'
+					/>
+				</div>
+				<div className='flex flex-wrap place-content-center place-items-center'>
 					{images.map((photo, index) => (
-						// eslint-disable-next-line
-						<img
-							key={photo}
-							src={photo}
-							data-index={index}
-							onClick={this.handleIndexClick}
-							className={index === active ? 'active' : ''}
-							alt='animal thumbnail'
-						/>
+						<div className='p-5 m-2 w-1/6'>
+							<img
+								key={photo}
+								src={photo}
+								data-index={index}
+								onClick={this.handleIndexClick}
+								className={
+									index === active
+										? 'rounded-full opacity-75'
+										: 'rounded-lg'
+								}
+								alt='animal thumbnail'
+							/>
+						</div>
 					))}
 				</div>
 			</div>

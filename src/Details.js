@@ -1,34 +1,30 @@
 import { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import ThemeContext from './ThemeContext';
 import Carousel from './Carousel';
 import ErrorBoundary from './ErrorBoundary';
-import ThemeContext from './ThemeContext';
 import Modal from './Modal';
 
 class Details extends Component {
 	state = { loading: true, showModal: false };
+
 	async componentDidMount() {
 		const res = await fetch(
 			`http://pets-v2.dev-apis.com/pets?id=${this.props.match.params.id}`
 		);
 		const json = await res.json();
-		this.setState(
-			Object.assign(
-				{
-					loading: false,
-				},
-				json.pets[0]
-			)
-		);
+		this.setState(Object.assign({ loading: false }, json.pets[0]));
 	}
 
 	toggleModal = () => this.setState({ showModal: !this.state.showModal });
+
 	adopt = () => (window.location = 'http://bit.ly/pet-adopt');
 
 	render() {
 		if (this.state.loading) {
-			return <h2>loading ...</h2>;
+			return <h2>loading … </h2>;
 		}
+
 		const {
 			animal,
 			breed,
@@ -39,15 +35,17 @@ class Details extends Component {
 			images,
 			showModal,
 		} = this.state;
+
 		return (
-			<div className='details'>
+			<div className='grid gap-2 grid-rows-2'>
 				<Carousel images={images} />
 				<div>
 					<h1>{name}</h1>
-					<h2>{`${animal} - ${breed} - ${city}, ${state}`}</h2>
+					<h2>{`${animal} — ${breed} — ${city}, ${state}`}</h2>
 					<ThemeContext.Consumer>
 						{([theme]) => (
 							<button
+								className='rounded px-6 py-2 color text-white hover:opacity-50 border-none'
 								onClick={this.toggleModal}
 								style={{ backgroundColor: theme }}
 							>
@@ -60,7 +58,7 @@ class Details extends Component {
 						<Modal>
 							<div>
 								<h1>Would you like to adopt {name}?</h1>
-								<div className='buttons'>
+								<div>
 									<button onClick={this.adopt}>Yes</button>
 									<button onClick={this.toggleModal}>
 										No
@@ -77,10 +75,10 @@ class Details extends Component {
 
 const DetailsWithRouter = withRouter(Details);
 
-export default function DetailsWithErrorBoundary() {
+export default function DetailsErrorBoundary(props) {
 	return (
 		<ErrorBoundary>
-			<DetailsWithRouter />
+			<DetailsWithRouter {...props} />
 		</ErrorBoundary>
 	);
 }
